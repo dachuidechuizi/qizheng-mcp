@@ -233,7 +233,9 @@ claude mcp add --transport http tianguan https://天官.cn/mcp/
 
 ### 6. REST API（公开 HTTP 接口）
 
-公开接口 `POST https://天官.cn/api/v1/public/chart/calculate`（本命盘）、`POST https://天官.cn/api/v1/public/chart/liunian`（流年盘），同样免登录免 Key，支持上述全部字段。
+公开接口 `POST https://天官.cn/api/v1/public/chart/calculate`（本命盘）、`POST https://天官.cn/api/v1/public/chart/liunian`（流年盘），同样免登录免 Key，本身已支持 `ChartRequest` 的全部字段。
+
+**简易调用：**
 
 ```bash
 curl -s -X POST "https://xn--rsso0d.cn/api/v1/public/chart/calculate" \
@@ -246,7 +248,46 @@ curl -s -X POST "https://xn--rsso0d.cn/api/v1/public/chart/calculate" \
     "timezone": 8,
     "gender": "male",
     "xiu_method": "huangdaohuigui"
-  }'
+  }' | python -m json.tool
+```
+
+**专业调用：**
+
+```bash
+curl -s -X POST "https://xn--rsso0d.cn/api/v1/public/chart/calculate" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "birth_date": "1995-06-15",
+    "birth_time": "14:30",
+    "birth_lon": 116.407,
+    "birth_lat": 39.904,
+    "timezone": 8,
+    "gender": "male",
+    "xiu_method": "chidao_zhengan",
+    "coord_system": "chidao",
+    "node_arrangement": "south_north",
+    "node_calculation": "fitted",
+    "apogee_calculation": "fitted",
+    "ming_gong_method": "horizon_rising",
+    "child_limit": 10
+  }' | python -m json.tool
+```
+
+**流年调用：**
+
+```bash
+curl -s -X POST "https://xn--rsso0d.cn/api/v1/public/chart/liunian" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "birth_date": "1995-06-15",
+    "birth_time": "14:30",
+    "birth_lon": 116.407,
+    "birth_lat": 39.904,
+    "timezone": 8,
+    "gender": "male",
+    "xiu_method": "huangdaohuigui",
+    "liunian_year": 2026
+  }' | python -m json.tool
 ```
 
 ### 不支持
